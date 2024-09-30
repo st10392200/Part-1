@@ -1,10 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.poepart1;
 
 import java.util.*;
+
 /**
  *
  * @author RC_Student_lab
@@ -35,11 +32,11 @@ public class Login {
    public void setPassword(String password) {
        this.password = password;
    }
- // Check if username contains an underscore and has more than 5 characters
-   public boolean checkUsername(String username) {
-        return username.contains("_") && username.length() > 5;
-   }
 
+   // Check if username contains an underscore and has more than 5 characters
+   public boolean checkUsername(String username) {
+       return username.contains("_") && username.length() >= 5; // Fix: username length should be at least 5
+   }
 
    // Method to check password complexity
    public boolean checkPasswordComplexity(String password) {
@@ -53,51 +50,51 @@ public class Login {
            if (Character.isUpperCase(ch)) hasUpper = true;
            if (Character.isDigit(ch)) hasDigit = true;
            if (specialCharacters.contains(ch)) specialChar = true;
-            
        } 
        return hasLower && hasUpper && hasDigit && specialChar && n >= 8;
    }
-    public String registerUser(String username, String password) {
+
+   // Method to register user with validations
+   public String registerUser(String username, String password) {
        boolean isUsernameValid = checkUsername(username);
        boolean isPasswordValid = checkPasswordComplexity(password);
 
        if (!isUsernameValid && !isPasswordValid) {
            return "Username is incorrectly formatted, and password does not meet the complexity requirements.";
        } else if (!isUsernameValid) {
-           return "Username is incorrectly formatted.";
+           return "Username is incorrectly formatted. It should contain an underscore and be at least 5 characters long.";
        } else if (!isPasswordValid) {
-           return "Password does not meet the complexity requirements.";
+           return "Password is not correctly formatted, please ensure that the password contains at least 8 characters, a capital letter, a number, and a special character.";
        } else {
-           // If both conditions are met
            setUsername(username);
            setPassword(password);
-           return "The two above conditions have been met and the user has been successfully registered.";
+           return "User successfully registered.";
        }
    }
-    
-public boolean loginUser(String enteredUsername, String enteredPassword) {
-       // Check if entered credentials match the stored ones
+
+   // Method to log in user by checking entered credentials
+   public boolean loginUser(String enteredUsername, String enteredPassword) {
        if (this.username.equals(enteredUsername) && this.password.equals(enteredPassword)) {
-           System.out.println("Login successful!");
+           System.out.println("login successful!");
            return true;
        } else {
-           System.out.println("Login failed. Incorrect username or password.");
+           System.out.println("login failed. Incorrect username or password.");
            return false;
        }
    }
- // New method to return login status
+
+   // New method to return login status
    public String returnLoginStatus(String enteredUsername, String enteredPassword) {
-       // Call loginUser method to verify credentials
        if (loginUser(enteredUsername, enteredPassword)) {
-           return "Login successful!";
+           return "login successful!";
        } else {
-           return "Login failed. Incorrect username or password.";
+           return "login failed. Incorrect username or password.";
        }
    }
-   // Method to display details
+
+   // Method to display user details
    public void displayDetails() {
        System.out.println("Username: " + username);
        System.out.println("Password: " + password);
    }
 }
-
