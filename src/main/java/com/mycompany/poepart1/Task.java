@@ -2,14 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+package com.mycompany.poepart1;
 
 /**
  *
  * @author RC_Student_lab
  */
 public class Task {
-
-    private String taskName;
+       private String taskName;
     private int taskNumber; // Auto-generated
     private String taskDescription;
     private String developerDetails;
@@ -86,6 +86,5 @@ public class Task {
     public String getTaskStatus() {
         return taskStatus;
     }
+    
 }
-
-
