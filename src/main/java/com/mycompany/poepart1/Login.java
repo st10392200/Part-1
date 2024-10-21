@@ -8,7 +8,7 @@ import java.util.*;
  */
 public class Login {
   
-   private String username;
+ /*  private String username;
    private String password;
    
    // Constructor
@@ -95,6 +95,8 @@ public class Login {
    // Method to display user details
    public void displayDetails() {
        System.out.println("Username: " + username);
-       System.out.println("Password: " + password);
    }
+*/
+    
+    
 }
