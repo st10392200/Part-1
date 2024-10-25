@@ -1,15 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
-
 package com.mycompany.poepart1;
-import java.util.*;
-import javax.swing.*;
+
 import java.util.ArrayList;
-/**
- *
- * @author RC_Student_lab
- */
+import java.util.Scanner;
+import javax.swing.JOptionPane;
+
 public class POEpart1 {
     
     private static ArrayList<Task> tasks = new ArrayList<>();
@@ -17,113 +11,99 @@ public class POEpart1 {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Scanner sc = new Scanner(System.in);
         Login login = new Login();
         
-        /* String name;
-         String lastName;
-   
-        // Capture username
+        String name;
+        String lastName;
+        
+        // Capture username and password for registration
         System.out.print("Enter Username: ");
         String username = scanner.next();
-        login.setUsername(username);
-
-        // Capture password
+        
         System.out.print("Enter Password: ");
         String password = scanner.next();
-        login.setPassword(password);
         
-         
-         //name
-        System.out.println("Enter NAME");
-         name = sc.next();
-         //lastname
-         System.out.println("Enter SURNAME");
-         lastName = sc.next();
+        System.out.println("Enter NAME:");
+        name = scanner.next();
         
-  // Call the registerUser method and print the result
-        String registrationMessage = login.registerUser(username, password);
+        System.out.println("Enter SURNAME:");
+        lastName = scanner.next();
+
+        // Call the registerUser method and print the result
+        String registrationMessage = login.registerUser(username, password, name, lastName);
         System.out.println(registrationMessage);
         
-        // Display details if registration was successful
+        // Proceed to login only if registration was successful
         if (registrationMessage.contains("successfully registered")) {
             login.displayDetails();
-        }
-        
-        // User Login
-        System.out.print("\nEnter Username to login: ");
-        String loginUsername = scanner.next();
-        System.out.print("Enter Password to login: ");
-        String loginPassword = scanner.next();
-        
-        // Call the loginUser method
-        boolean isLoginSuccessful = login.loginUser(loginUsername, loginPassword);
-        
-        if (isLoginSuccessful) {
-            System.out.println("Welcome " + name + ""+lastName);
-        } else {
-            System.out.println("Please try logging in again.");
-        }
-        
-        
-        
-        
-        
-        
-    }*/
-        
-       
 
-    
-        // Login to the system
-        if (login()) {
-            JOptionPane.showMessageDialog(null, "Welcome to EasyKanban", "Login Successful", JOptionPane.INFORMATION_MESSAGE);
-
-            while (true) {
-                // Display menu
-                String menu = "====== Menu =======\n"
-                        + "1. Add Task\n"
-                        + "2. Show Report\n"
-                        + "0. Exit";
-                
-                String choice = JOptionPane.showInputDialog(null, menu, "Choose an option", JOptionPane.QUESTION_MESSAGE);
-                
-                switch (choice) {
-                    case "1":
-                        addTask();
-                        break;
-                    case "2":
-                        showReport();
-                        break;
-                    case "0":
-                        JOptionPane.showMessageDialog(null, "Exiting the program...");
-                        System.exit(0);
-                        break;
-                    default:
-                        JOptionPane.showMessageDialog(null, "Invalid choice! Please select a valid option.");
-                        break;
-                }
+            // User Login
+            System.out.print("\nEnter Username to login: ");
+            String loginUsername = scanner.next();
+            System.out.print("Enter Password to login: ");
+            String loginPassword = scanner.next();
+            
+            // Call the loginUser method
+            boolean isLoginSuccessful = login.loginUser(loginUsername, loginPassword);
+            
+            if (isLoginSuccessful) {
+                // Display the welcome message after successful login
+                System.out.println("Welcome " + name + " " + lastName);
+                displayMenu();
+            } else {
+                System.out.println("Login failed. Please try again.");
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Login failed. Exiting program.", "Login Failed", JOptionPane.ERROR_MESSAGE);
+            System.out.println("Registration failed. Exiting the program.");
         }
+        
+        scanner.close(); // Close the scanner
     }
 
-    // Simple login functionality
-    private static boolean login() {
-        String username = JOptionPane.showInputDialog(null, "Enter username:");
-        String password = JOptionPane.showInputDialog(null, "Enter password:");
-        return username.equals("admin") && password.equals("1234");
+    // Method to display the main menu
+    private static void displayMenu() {
+        while (true) {
+            String menu = "====== Menu =======\n"
+                    + "1. Add Task\n"
+                    + "2. Show Report\n"
+                    + "3. Show Total Task Hours\n"
+                    + "0. Exit";
+
+            String choice = JOptionPane.showInputDialog(null, menu, "Choose an option", JOptionPane.QUESTION_MESSAGE);
+
+            switch (choice) {
+                case "1":
+                    addTask();
+                    break;
+                case "2":
+                    showReport();
+                    break;
+                case "3":
+                    showTotalTaskHours();
+                    break;
+                case "0":
+                    JOptionPane.showMessageDialog(null, "Exiting the program...");
+                    System.exit(0);
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(null, "Invalid choice! Please select a valid option.");
+                    break;
+            }
+        }
     }
 
     // Method to add a task
     private static void addTask() {
-        String taskName = JOptionPane.showInputDialog(null, "Enter task name:");
+        Task newTask = new Task();
 
-        String taskDescription = "";
+        String taskName = JOptionPane.showInputDialog(null, "Enter task name:");
+        newTask.setTaskName(taskName);
+
+        String taskDescription;
         while (true) {
             taskDescription = JOptionPane.showInputDialog(null, "Enter task description (max 50 chars):");
             if (taskDescription.length() <= 50) {
+                newTask.setTaskDescription(taskDescription);
                 JOptionPane.showMessageDialog(null, "Task successfully captured.", "Success", JOptionPane.INFORMATION_MESSAGE);
                 break;
             } else {
@@ -132,19 +112,25 @@ public class POEpart1 {
         }
 
         String developer = JOptionPane.showInputDialog(null, "Enter developer name:");
+        newTask.setDeveloperDetails(developer);
+
         String durationString = JOptionPane.showInputDialog(null, "Enter task duration (in hours):");
-        int duration = Integer.parseInt(durationString);
+        try {
+            int duration = Integer.parseInt(durationString);
+            newTask.setTaskDuration(duration);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Please enter a valid number for task duration.", "Error", JOptionPane.ERROR_MESSAGE);
+            return; // Exit the method if input is invalid
+        }
 
-        String taskID = generateTaskID(taskName, taskCount, developer);
+        newTask.setTaskNumber(taskCount++); // Increment task count for each new task
+        newTask.generateTaskID(); // Automatically generate Task ID
+
         String status = chooseTaskStatus();
+        newTask.setTaskStatus(status);
 
-        tasks.add(new Task(taskName, taskCount++, taskDescription, developer, duration, taskID, status));
+        tasks.add(newTask); // Add task to the list
         JOptionPane.showMessageDialog(null, "Task added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-    }
-
-    // Generate Task ID
-    private static String generateTaskID(String taskName, int taskNumber, String developer) {
-        return taskName.substring(0, 2).toUpperCase() + ":" + taskNumber + ":" + developer.substring(developer.length() - 3).toUpperCase();
     }
 
     // Choose task status
@@ -174,37 +160,15 @@ public class POEpart1 {
 
         StringBuilder report = new StringBuilder("Task Report:\n");
         for (Task task : tasks) {
-            report.append(task.toString()).append("\n");
+            report.append(task.printTaskDetails()).append("\n");
         }
         JOptionPane.showMessageDialog(null, report.toString(), "Task Report", JOptionPane.INFORMATION_MESSAGE);
     }
-}
 
-// Task class to model a task entity
-class Task {
-    private String taskName;
-    private int taskNumber;
-    private String taskDescription;
-    private String developerDetails;
-    private int taskDuration;
-    private String taskID;
-    private String taskStatus;
-
-    public Task(String taskName, int taskNumber, String taskDescription, String developerDetails, int taskDuration, String taskID, String taskStatus) {
-        this.taskName = taskName;
-        this.taskNumber = taskNumber;
-        this.taskDescription = taskDescription;
-        this.developerDetails = developerDetails;
-        this.taskDuration = taskDuration;
-        this.taskID = taskID;
-        this.taskStatus = taskStatus;
-    }
-
-    @Override
-    public String toString() {
-        return "Task Name: " + taskName + "\nTask Number: " + taskNumber + "\nDescription: " + taskDescription +
-                "\nDeveloper: " + developerDetails + "\nDuration: " + taskDuration + " hours\nTask ID: " + taskID + 
-                "\nStatus: " + taskStatus + "\n";
+    // Show total task hours
+    private static void showTotalTaskHours() {
+        Task[] taskArray = tasks.toArray(new Task[0]);
+        int totalHours = Task.returnTotalHours(taskArray);
+        JOptionPane.showMessageDialog(null, "Total Task Hours: " + totalHours, "Total Task Hours", JOptionPane.INFORMATION_MESSAGE);
     }
 }
-

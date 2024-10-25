@@ -1,15 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.poepart1;
 
-/**
- *
- * @author RC_Student_lab
- */
 public class Task {
-       private String taskName;
+
+    private String taskName;
     private int taskNumber; // Auto-generated
     private String taskDescription;
     private String developerDetails;
@@ -17,25 +10,38 @@ public class Task {
     private String taskID; // Auto-generated
     private String taskStatus;
 
-    // Constructor
-    public Task(String taskName, int taskNumber, String taskDescription, String developerDetails, int taskDuration, String taskStatus) {
+    // Setters for each attribute
+    public void setTaskName(String taskName) {
         this.taskName = taskName;
+    }
+
+    public void setTaskNumber(int taskNumber) {
         this.taskNumber = taskNumber;
+    }
+
+    public void setTaskDescription(String taskDescription) {
         this.taskDescription = taskDescription;
+    }
+
+    public void setDeveloperDetails(String developerDetails) {
         this.developerDetails = developerDetails;
+    }
+
+    public void setTaskDuration(int taskDuration) {
         this.taskDuration = taskDuration;
+    }
+
+    public void setTaskStatus(String taskStatus) {
         this.taskStatus = taskStatus;
-        this.taskID = createTaskID(); // Auto-generate the task ID
+    }
+
+    public void generateTaskID() {
+        this.taskID = taskName.substring(0, 2).toUpperCase() + ":" + taskNumber + ":" + developerDetails.substring(developerDetails.length() - 3).toUpperCase();
     }
 
     // Method to check if the task description is <= 50 characters
     public boolean checkTaskDescription() {
         return this.taskDescription.length() <= 50;
-    }
-
-    // Method to create a unique task ID
-    public String createTaskID() {
-        return taskName.substring(0, 2).toUpperCase() + ":" + taskNumber + ":" + developerDetails.substring(developerDetails.length() - 3).toUpperCase();
     }
 
     // Method to print the task details
@@ -53,12 +59,12 @@ public class Task {
     public static int returnTotalHours(Task[] tasks) {
         int totalHours = 0;
         for (Task task : tasks) {
-            totalHours += task.taskDuration;
+            totalHours += task.getTaskDuration();
         }
         return totalHours;
     }
 
-    // Getters and Setters
+    // Getters for each attribute
     public String getTaskName() {
         return taskName;
     }
@@ -86,5 +92,4 @@ public class Task {
     public String getTaskStatus() {
         return taskStatus;
     }
-    
 }
