@@ -1,33 +1,53 @@
 package com.mycompany.poepart1;
 
 public class Task {
-
     private String taskName;
-    private int taskNumber; // Auto-generated
     private String taskDescription;
-    private String developerDetails;
-    private int taskDuration;
-    private String taskID; // Auto-generated
+    private String developerName;
+    private int taskDuration; // Duration in hours
     private String taskStatus;
 
-    // Setters for each attribute
-    public void setTaskName(String taskName) {
-        this.taskName = taskName;
+    // Getters
+    public String getTaskName() {
+        return taskName;
     }
 
-    public void setTaskNumber(int taskNumber) {
-        this.taskNumber = taskNumber;
+    public String getTaskDescription() {
+        return taskDescription;
+    }
+
+    public String getDeveloperName() {
+        return developerName;
+    }
+
+    public int getTaskDuration() {
+        return taskDuration;
+    }
+
+    public String getTaskStatus() {
+        return taskStatus;
+    }
+
+    // Setters
+    public void setTaskName(String taskName) {
+        if (taskName == null || taskName.isEmpty()) {
+            throw new IllegalArgumentException("Task name cannot be null or empty.");
+        }
+        this.taskName = taskName;
     }
 
     public void setTaskDescription(String taskDescription) {
         this.taskDescription = taskDescription;
     }
 
-    public void setDeveloperDetails(String developerDetails) {
-        this.developerDetails = developerDetails;
+    public void setDeveloperName(String developerName) {
+        this.developerName = developerName;
     }
 
     public void setTaskDuration(int taskDuration) {
+        if (taskDuration <= 0) {
+            throw new IllegalArgumentException("Duration must be positive.");
+        }
         this.taskDuration = taskDuration;
     }
 
@@ -35,61 +55,21 @@ public class Task {
         this.taskStatus = taskStatus;
     }
 
-    public void generateTaskID() {
-        this.taskID = taskName.substring(0, 2).toUpperCase() + ":" + taskNumber + ":" + developerDetails.substring(developerDetails.length() - 3).toUpperCase();
+    // Create a unique Task ID based on the task name, developer name, and task number
+    public String createTaskID(int taskNumber) {
+        String id = (taskName.length() >= 2 ? taskName.substring(0, 2).toUpperCase() : taskName.toUpperCase()) + ":" +
+                    taskNumber + ":" +
+                    (developerName.length() >= 3 ? developerName.substring(developerName.length() - 3).toUpperCase() : developerName.toUpperCase());
+        return id;
     }
 
-    // Method to check if the task description is <= 50 characters
-    public boolean checkTaskDescription() {
-        return this.taskDescription.length() <= 50;
-    }
-
-    // Method to print the task details
-    public String printTaskDetails() {
-        return "Task Name: " + taskName +
-                "\nTask Number: " + taskNumber +
-                "\nTask Description: " + taskDescription +
-                "\nDeveloper: " + developerDetails +
-                "\nTask Duration: " + taskDuration + " hours" +
-                "\nTask ID: " + taskID +
-                "\nTask Status: " + taskStatus + "\n";
-    }
-
-    // Static method to return total task duration
-    public static int returnTotalHours(Task[] tasks) {
-        int totalHours = 0;
-        for (Task task : tasks) {
-            totalHours += task.getTaskDuration();
-        }
-        return totalHours;
-    }
-
-    // Getters for each attribute
-    public String getTaskName() {
-        return taskName;
-    }
-
-    public int getTaskNumber() {
-        return taskNumber;
-    }
-
-    public String getTaskDescription() {
-        return taskDescription;
-    }
-
-    public String getDeveloperDetails() {
-        return developerDetails;
-    }
-
-    public int getTaskDuration() {
-        return taskDuration;
-    }
-
-    public String getTaskID() {
-        return taskID;
-    }
-
-    public String getTaskStatus() {
-        return taskStatus;
+    // Print task details
+    public String printTaskDetails(int taskNumber) {
+        return "Task Name: " + taskName + 
+               "\nDescription: " + taskDescription +
+               "\nDeveloper: " + developerName + 
+               "\nDuration: " + taskDuration + " hours" +
+               "\nStatus: " + taskStatus + 
+               "\nTask ID: " + createTaskID(taskNumber);
     }
 }

@@ -30,15 +30,6 @@ public class Login {
         return lastName;
     }
 
-    // Setters for Username and Password
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     // Check if username contains an underscore and has at least 5 characters
     public boolean checkUsername(String username) {
         return username.contains("_") && username.length() <= 5;
@@ -68,9 +59,9 @@ public class Login {
         if (!isUsernameValid && !isPasswordValid) {
             return "Username is incorrectly formatted, and password does not meet the complexity requirements.";
         } else if (!isUsernameValid) {
-            return "Username is incorrectly formatted. It should contain an underscore and be at least 5 characters long.";
+            return "Username is incorrectly formatted. It should contain an underscore and be at most 5 characters long.";
         } else if (!isPasswordValid) {
-            return "Password is not correctly formatted, please ensure that the password contains at least 8 characters, a capital letter, a number, and a special character.";
+            return "Password is not correctly formatted; please ensure that the password contains at least 8 characters, a capital letter, a number, and a special character.";
         } else {
             // Directly set the user details
             this.username = username;
